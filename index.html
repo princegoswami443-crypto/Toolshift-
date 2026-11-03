@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ToolSwift — Free Online Tools</title>
+<meta name="description" content="ToolSwift offers fast, free online tools for images, text, calculations and social media.">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f6f7fb;color:#171923}
+header{background:linear-gradient(135deg,#5b21b6,#2563eb);color:white;padding:34px 18px 28px;text-align:center}
+header h1{margin:0;font-size:34px}header p{margin:8px auto 0;max-width:650px;opacity:.92}
+.wrap{max-width:1050px;margin:auto;padding:22px 16px}
+.search{width:100%;padding:15px 17px;border:1px solid #ddd;border-radius:14px;font-size:16px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:white;border:1px solid #e7e7ee;border-radius:18px;padding:20px;box-shadow:0 5px 20px #00000008}
+.card h2{font-size:19px;margin:0 0 7px}.card p{font-size:14px;color:#656875;min-height:40px}
+button,.btn{border:0;background:#2563eb;color:#fff;padding:11px 15px;border-radius:10px;font-weight:700;cursor:pointer}
+input,textarea{width:100%;padding:12px;border:1px solid #d9dbe5;border-radius:10px;font-size:15px;margin:7px 0}
+.tool{display:none;background:white;border-radius:18px;padding:20px;margin-top:18px;border:1px solid #e4e5eb}
+.tool.active{display:block}.back{background:#111827;margin-bottom:12px}
+.result{background:#f2f4f8;border-radius:10px;padding:13px;margin-top:10px;white-space:pre-wrap}
+footer{text-align:center;padding:30px;color:#777;font-size:13px}
+.small{font-size:13px;color:#6b7280}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ ToolSwift</h1>
+<p>Fast, Free & Simple Online Tools</p>
+</header>
+<main class="wrap">
+<input id="search" class="search" placeholder="Search a tool...">
+<div id="cards" class="grid">
+  <div class="card" data-name="age calculator"><h2>🎂 Age Calculator</h2><p>Calculate your exact age from your date of birth.</p><button onclick="openTool('age')">Open</button></div>
+  <div class="card" data-name="percentage calculator"><h2>📊 Percentage</h2><p>Find percentages quickly.</p><button onclick="openTool('percent')">Open</button></div>
+  <div class="card" data-name="word counter"><h2>📝 Word Counter</h2><p>Count words and characters instantly.</p><button onclick="openTool('words')">Open</button></div>
+  <div class="card" data-name="caption generator instagram caption"><h2>✨ Caption Generator</h2><p>Generate quick social captions from a topic.</p><button onclick="openTool('caption')">Open</button></div>
+  <div class="card" data-name="bio generator instagram bio"><h2>👤 Bio Generator</h2><p>Create short profile-bio ideas.</p><button onclick="openTool('bio')">Open</button></div>
+  <div class="card" data-name="image compressor"><h2>🖼️ Image Compressor</h2><p>Compress an image locally in your browser.</p><button onclick="openTool('compress')">Open</button></div>
+</div>
+
+<section id="age" class="tool"><button class="back" onclick="closeTools()">← Back</button><h2>🎂 Age Calculator</h2><input id="dob" type="date"><button onclick="ageCalc()">Calculate</button><div id="ageResult" class="result"></div></section>
+
+<section id="percent" class="tool"><button class="back" onclick="closeTools()">← Back</button><h2>📊 Percentage Calculator</h2><input id="p1" type="number" placeholder="Percentage"><input id="p2" type="number" placeholder="Number"><button onclick="percentCalc()">Calculate</button><div id="percentResult" class="result"></div></section>
+
+<section id="words" class="tool"><button class="back" onclick="closeTools()">← Back</button><h2>📝 Word Counter</h2><textarea id="text" rows="8" placeholder="Paste or type text..."></textarea><div id="wordResult" class="result">Words: 0 | Characters: 0</div></section>
+
+<section id="caption" class="tool"><button class="back" onclick="closeTools()">← Back</button><h2>✨ Caption Generator</h2><input id="capTopic" placeholder="Topic, e.g. friendship"><button onclick="makeCaption()">Generate</button><div id="capResult" class="result"></div></section>
+
+<section id="bio" class="tool"><button class="back" onclick="closeTools()">← Back</button><h2>👤 Bio Generator</h2><input id="bioTopic" placeholder="Your vibe, e.g. gaming / creator"><button onclick="makeBio()">Generate</button><div id="bioResult" class="result"></div></section>
+
+<section id="compress" class="tool"><button class="back" onclick="closeTools()">← Back</button><h2>🖼️ Image Compressor</h2><p class="small">Your image stays in your browser; it is not uploaded by this page.</p><input id="imgFile" type="file" accept="image/*"><button onclick="compressImage()">Compress & Download</button><div id="compressResult" class="result"></div></section>
+</main>
+<footer>© 2026 ToolSwift · Free online tools<br><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="contact.html">Contact</a></footer>
+
+<script>
+const tools=document.querySelectorAll('.tool');
+function openTool(id){tools.forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:document.getElementById(id).offsetTop-10,behavior:'smooth'})}
+function closeTools(){tools.forEach(x=>x.classList.remove('active'))}
+document.getElementById('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase();document.querySelectorAll('#cards .card').forEach(c=>c.style.display=c.dataset.name.includes(q)?'block':'none')});
+function ageCalc(){let v=document.getElementById('dob').value;if(!v)return;let d=new Date(v),n=new Date();let y=n.getFullYear()-d.getFullYear(),m=n.getMonth()-d.getMonth(),day=n.getDate()-d.getDate();if(day<0){m--;day+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}document.getElementById('ageResult').textContent=`Your age is ${y} years, ${m} months, ${day} days.`}
+function percentCalc(){let a=+document.getElementById('p1').value,b=+document.getElementById('p2').value;document.getElementById('percentResult').textContent=(isFinite(a)&&isFinite(b))?`${a}% of ${b} = ${(a*b/100).toFixed(2)}`:'Enter both numbers.'}
+document.getElementById('text').addEventListener('input',()=>{let t=document.getElementById('text').value.trim();document.getElementById('wordResult').textContent=`Words: ${t?t.split(/\\s+/).length:0} | Characters: ${document.getElementById('text').value.length}`});
+function makeCaption(){let t=document.getElementById('capTopic').value||'life';document.getElementById('capResult').textContent=`✨ Making memories, one ${t} moment at a time.\\n💫 Good vibes. Real moments.\\n🔥 ${t} mode: ON.`}
+function makeBio(){let t=document.getElementById('bioTopic').value||'creator';document.getElementById('bioResult').textContent=`✨ ${t} | Dream big\\n🎯 Creating. Learning. Growing.\\n📍 Living one day at a time.`}
+function compressImage(){let f=document.getElementById('imgFile').files[0];if(!f)return;let im=new Image(),r=new FileReader();r.onload=e=>{im.onload=()=>{let c=document.createElement('canvas'),max=1600,s=Math.min(1,max/Math.max(im.width,im.height));c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);c.toBlob(b=>{let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='compressed-image.jpg';a.click();document.getElementById('compressResult').textContent=`Done. Original: ${(f.size/1024).toFixed(0)} KB → New: ${(b.size/1024).toFixed(0)} KB`;},'image/jpeg',.72)};im.src=e.target.result};r.readAsDataURL(f)}
+</script>
+</body>
+</html>
